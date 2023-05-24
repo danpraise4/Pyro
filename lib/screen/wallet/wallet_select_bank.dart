@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fuleap/api/api.dart';
 import 'package:fuleap/api/wallet/wallet.dart';
+import 'package:fuleap/models/wallet/bank_model.dart';
 import 'package:fuleap/widget/general/app_bar.dart';
+import 'package:fuleap/widget/general/extras.dart';
 import 'package:fuleap/widget/page/page_wrap.dart';
 
 import '../../helpers/constants.dart';
@@ -16,8 +18,16 @@ class walletSelectBank extends StatefulWidget {
 class _walletSelectBankState extends State<walletSelectBank> {
   var textController = TextEditingController();
 
-  GetBanks() {
-    WalletApi(context).GetWallet(Endpoints.getBanks, storage: db_banks);
+  List<bankModel>? models;
+
+  GetBanks() async {
+    var x = await WalletApi(context)
+        .GetWallet(Endpoints.getBanks, storage: db_banks);
+    setState(() {
+      if (x == null) {
+        models = [];
+      } else {}
+    });
   }
 
   @override
@@ -64,7 +74,14 @@ class _walletSelectBankState extends State<walletSelectBank> {
                 ],
               ),
             ),
-            Expanded(child: Container())
+            Expanded(
+                child: models == null
+                    ? Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      )
+                    : models!.isEmpty
+                        ? Empty()
+                        : Container())
           ],
         ));
   }
