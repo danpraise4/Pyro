@@ -27,7 +27,9 @@ class _historyState extends State<history> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (ctx) => const walletViewTransactionHistory()));
+                builder: (ctx) => walletViewTransactionHistory(
+                      data: widget.data,
+                    )));
       },
       child: Container(
         height: 90,

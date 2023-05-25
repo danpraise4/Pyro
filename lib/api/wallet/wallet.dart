@@ -15,9 +15,9 @@ class WalletApi extends Api {
   GetWallet(path, {body, required String storage}) async {
     Response? x = await ApiCall(path: path, type: RequestType.get, data: body);
 
-    print(x);
     if (x != null) {
       setStorage(key: storage, value: x.data);
+      return x.data;
     }
   }
 

@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:fuleap/helpers/constants.dart';
 import 'package:fuleap/helpers/myemums.dart';
+import 'package:fuleap/helpers/storage.dart';
 import 'package:fuleap/widget/general/button.dart';
+import 'package:fuleap/widget/general/icons.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 String formatAmount(var number) {
   var formatter = NumberFormat("#,##0", "en_US");
   return formatter.format(number);
+}
+
+void showToast(BuildContext context, message) {
+  final scaffold = ScaffoldMessenger.of(context);
+  scaffold.showSnackBar(
+    SnackBar(
+      content: Text(message),
+      action: SnackBarAction(
+          label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
+    ),
+  );
 }
 
 showMessage(context,
@@ -112,7 +125,7 @@ showQRCode(context, {required String uid}) async {
                   child: Column(children: [
                     QrImage(
                       padding: const EdgeInsets.all(0),
-                      data: "dadadadadadm  ssdadaa",
+                      data: getUser()!.user!.systemCode!,
                       version: QrVersions.auto,
                       foregroundColor: black_,
                       size: 200.0,
@@ -126,7 +139,7 @@ showQRCode(context, {required String uid}) async {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            uid,
+                            getUser()!.user!.systemCode!,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                                 color: blue_, fontWeight: FontWeight.w500),
@@ -134,10 +147,9 @@ showQRCode(context, {required String uid}) async {
                           const SizedBox(
                             width: 10,
                           ),
-                          const Icon(
-                            Icons.copy,
-                            size: 15,
-                          )
+                          Copy(
+                              val: getUser()!.user!.systemCode!,
+                              context: context)
                         ],
                       ),
                     ),

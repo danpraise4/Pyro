@@ -9,6 +9,7 @@ import 'package:fuleap/helpers/myemums.dart';
 import 'package:fuleap/models/wallet/transaction_model.dart';
 import 'package:fuleap/models/wallet/wallet_model.dart';
 import 'package:fuleap/provider/wallet_provider.dart';
+import 'package:fuleap/screen/wallet/all_transactions.dart';
 import 'package:fuleap/screen/wallet/wallet_fund.dart';
 import 'package:fuleap/screen/wallet/wallet_remit.dart';
 import 'package:fuleap/screen/wallet/wallet_withdrawal.dart';
@@ -151,9 +152,19 @@ class _walletHomeState extends State<walletHome> {
             ),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 15),
-              child: const Row(
+              child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text("Transaction History"), Text("See All")]),
+                  children: [
+                    const Text("Transaction History"),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => allTranactions()));
+                        },
+                        child: const Text("See All"))
+                  ]),
             ),
             Container(
               child: shadowBox(context,

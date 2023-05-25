@@ -19,6 +19,8 @@ class wrapPage extends StatelessWidget {
   bool hasBackground;
   bool isLoading;
 
+  BuildContext? context;
+
   wrapPage(
       {super.key,
       required this.children,
@@ -26,6 +28,7 @@ class wrapPage extends StatelessWidget {
       this.inScroll = true,
       this.showBottom = false,
       this.onChange,
+      this.context,
       this.isLoading = false,
       this.hasBackground = false,
       this.selected = 0});
@@ -35,6 +38,7 @@ class wrapPage extends StatelessWidget {
     bool inError = false;
 
     return LoaderOverlay(
+      closeOnBackButton: true,
       child: Scaffold(
         extendBody: true,
         backgroundColor: white_,

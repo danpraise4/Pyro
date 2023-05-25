@@ -347,17 +347,20 @@ class OpenTime {
 class Petrol {
   int? price;
   bool? isAvailable;
+  String? unit;
 
-  Petrol({this.price, this.isAvailable});
+  Petrol({this.price, this.isAvailable, this.unit});
 
   Petrol.fromJson(Map json) {
     price = json['price'];
+    unit = json['unit'];
     isAvailable = json['isAvailable'];
   }
 
   Map toJson() {
     final Map data = new Map();
     data['price'] = this.price;
+    data['unit'] = this.unit;
     data['isAvailable'] = this.isAvailable;
     return data;
   }

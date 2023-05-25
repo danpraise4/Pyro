@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:fuleap/api/api.dart';
 import 'package:fuleap/api/wallet/wallet.dart';
@@ -17,17 +19,53 @@ class walletSelectBank extends StatefulWidget {
 
 class _walletSelectBankState extends State<walletSelectBank> {
   var textController = TextEditingController();
+  String query = '';
 
   List<bankModel>? models;
+  List<bankModel>? searh;
 
   GetBanks() async {
     var x = await WalletApi(context)
         .GetWallet(Endpoints.getBanks, storage: db_banks);
+    if (x == null) {
+      models = [];
+    } else {
+      models = [];
+      (x as List<dynamic>).forEach((element) {
+        models!.add(bankModel.fromJson(element));
+      });
+    }
     setState(() {
-      if (x == null) {
-        models = [];
-      } else {}
+      searh = models;
     });
+  }
+
+  SingleBank({required bankModel bank}) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pop(context, bank);
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          children: [
+            Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                child: Row(children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    margin: const EdgeInsets.only(right: 10),
+                    decoration: BoxDecoration(
+                        color: gray_, borderRadius: BorderRadius.circular(10)),
+                  ),
+                  Text(bank.name!)
+                ])),
+            Divider()
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -67,6 +105,21 @@ class _walletSelectBankState extends State<walletSelectBank> {
                   Expanded(
                     child: TextField(
                       controller: textController,
+                      onChanged: (x) {
+                        if (models == null) {
+                          return;
+                        }
+                        searh = [];
+                        models!.forEach((element) {
+                          if (element.name!
+                              .toLowerCase()
+                              .contains(x.toLowerCase())) {
+                            searh!.add(element);
+                          }
+                        });
+
+                        setState(() {});
+                      },
                       decoration: const InputDecoration(
                           hintText: "Search Bank", border: InputBorder.none),
                     ),
@@ -76,12 +129,16 @@ class _walletSelectBankState extends State<walletSelectBank> {
             ),
             Expanded(
                 child: models == null
-                    ? Center(
+                    ? const Center(
                         child: CircularProgressIndicator.adaptive(),
                       )
                     : models!.isEmpty
                         ? Empty()
-                        : Container())
+                        : ListView.builder(
+                            itemCount: searh!.length,
+                            itemBuilder: (_, x) {
+                              return SingleBank(bank: searh![x]);
+                            }))
           ],
         ));
   }

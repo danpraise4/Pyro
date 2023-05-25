@@ -191,8 +191,10 @@ class _addAttendantsState extends State<addAttendants> {
                       "email": email
                     };
 
-                    await AccountApi(context)
-                        .PostAccount(Endpoints.getAttendance, body: x);
+                    await AccountApi(context).PostAccount(
+                        Endpoints.getAttendance,
+                        body: x,
+                        message: "Attedant Create Successfully");
                     //context.loaderOverlay.hide();
                   },
                   margin:

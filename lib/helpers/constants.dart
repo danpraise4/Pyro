@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:fuleap/helpers/storage.dart';
 
 // Db names
 
@@ -14,6 +15,11 @@ String db_transaction({String? id}) =>
 const String key_station_manager = 'station_manager';
 
 const String key_token = 'token';
+
+var pushKey = 'push_${getUser()!.user!.id!}';
+var pinKey = 'pin_${getUser()!.user!.id!}';
+var pinStateKey = 'pinstate_${getUser()!.user!.id!}';
+var bioKey = 'bio_${getUser()!.user!.id!}';
 
 // Colors
 const green_ = Color(0xff002928);

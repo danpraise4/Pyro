@@ -44,7 +44,7 @@ class Data {
   String? emailVerifiedAt;
   String? phoneNumber;
   String? role;
-  bool? accountStatus;
+  var accountStatus;
   String? createdAt;
   String? updatedAt;
   String? id;

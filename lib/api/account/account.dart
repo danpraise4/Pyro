@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, use_build_context_synchronously
 
 import 'dart:developer';
 
@@ -19,25 +19,26 @@ class AccountApi extends Api {
     }
   }
 
-  PostAccount(path, {body, message}) async {
+  PostAccount(path, {body, message, bool showToast = true}) async {
     Response? x = await ApiCall(path: path, type: RequestType.post, data: body);
     if (x != null) {
-      // ignore: use_build_context_synchronously
-      showMessage(context,
-          title: "Success",
-          message: message ?? "Data Pushed Ok",
-          buttonText: "Close", onClick: () {
-        Navigator.pop(context);
-      });
+      print(x.data);
+      if (showToast) {
+        showMessage(context,
+            title: "Success",
+            message: message ?? "Data Pushed Ok",
+            buttonText: "Close", onClick: () {
+          Navigator.pop(context);
+        });
+      }
 
-      return x;
+      return x.data;
     }
   }
 
   PatchAccount(path, {body, message}) async {
     Response? x =
         await ApiCall(path: path, type: RequestType.patch, data: body);
-    log(x.toString());
     if (x != null) {
       // ignore: use_build_context_synchronously
       showMessage(context,

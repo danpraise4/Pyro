@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fuleap/helpers/constants.dart';
 import 'package:fuleap/helpers/storage.dart';
 import 'package:fuleap/helpers/utils.dart';
+import 'package:fuleap/screen/settings/notifacations.dart';
 import 'package:fuleap/widget/general/profile_image.dart';
 
 // ignore: camel_case_types
@@ -108,7 +109,14 @@ class customAppBar {
               const SizedBox(
                 width: 15,
               ),
-              SvgPicture.asset('${svgPath}notification.svg')
+              GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const noticationHome()));
+                  },
+                  child: SvgPicture.asset('${svgPath}notification.svg'))
             ],
           )
         ]));

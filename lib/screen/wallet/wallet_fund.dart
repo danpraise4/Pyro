@@ -8,6 +8,7 @@ import 'package:fuleap/models/wallet/payment_options_model.dart';
 import 'package:fuleap/models/wallet/wallet_model.dart';
 import 'package:fuleap/provider/wallet_provider.dart';
 import 'package:fuleap/screen/wallet/wallet_confirm_transaction.dart';
+import 'package:fuleap/screen/wallet/wallet_fund_process.dart';
 import 'package:fuleap/widget/general/amount_picker.dart';
 import 'package:fuleap/widget/general/app_bar.dart';
 import 'package:fuleap/widget/general/button.dart';
@@ -150,7 +151,9 @@ class _walletFundState extends State<walletFund> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (ctx) => const walletConfirmTransaction()));
+                          builder: (ctx) => walletFundProcess(
+                                amount: _amountController.text,
+                              )));
                 },
                 isActive: true,
                 isLoading: false,

@@ -91,7 +91,7 @@ class _openAttendantState extends State<openAttendant> {
                 borderButton(
                   isActive: true,
                   isLoading: false,
-                  text: "Suspend",
+                  text: "Activate",
                   type: BottonType.small,
                   onClick: () async {
                     log(attendant.toJson().toString());
@@ -101,9 +101,9 @@ class _openAttendantState extends State<openAttendant> {
                         body: {
                           "pumpAttendantId": attendant.id,
                           "reason": "No reason",
-                          "status": "deactivated"
+                          "status": "confirmed"
                         },
-                        message: "Attendant delete!!");
+                        message: "Attendant Comfirmed!");
                     context.loaderOverlay.hide();
                   },
                 ),
@@ -115,8 +115,13 @@ class _openAttendantState extends State<openAttendant> {
                   type: BottonType.small,
                   onClick: () async {
                     context.loaderOverlay.show();
-                    await AccountApi(context).DeleteAccount(
+                    await AccountApi(context).PatchAccount(
                         Endpoints.getAttendance,
+                        body: {
+                          "pumpAttendantId": attendant.id,
+                          "reason": "No reason",
+                          "status": "deactivated"
+                        },
                         message: "Attendant delete!!");
                     context.loaderOverlay.hide();
                   },

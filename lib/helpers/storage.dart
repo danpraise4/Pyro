@@ -41,6 +41,7 @@ AttentantsModel? getAttendants() {
 
 AccountModel? getAccount() {
   var value = userStorage.get(db_account);
+
   AccountModel? model = AccountModel.fromJson(value);
   return model;
 }

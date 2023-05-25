@@ -9,7 +9,7 @@ Widget Empty() {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          "Transction Empty",
+          "Nothing here yet",
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
         ),
         Text(

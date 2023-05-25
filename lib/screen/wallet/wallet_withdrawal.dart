@@ -1,6 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:fuleap/api/api.dart';
+import 'package:fuleap/api/wallet/wallet.dart';
 import 'package:fuleap/helpers/constants.dart';
 import 'package:fuleap/helpers/myemums.dart';
+import 'package:fuleap/helpers/storage.dart';
 import 'package:fuleap/helpers/theme.dart';
 import 'package:fuleap/helpers/utils.dart';
 import 'package:fuleap/models/wallet/bank_model.dart';
@@ -12,6 +17,7 @@ import 'package:fuleap/widget/general/button.dart';
 import 'package:fuleap/widget/general/inpute.dart';
 import 'package:fuleap/widget/general/save_beneficiary.dart';
 import 'package:fuleap/widget/page/page_wrap.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:validatorless/validatorless.dart';
 
 import '../../widget/general/text_wrap.dart';
@@ -31,10 +37,13 @@ class _walletWithdrawalState extends State<walletWithdrawal> {
   final formKey = GlobalKey<FormState>();
   bankModel? selectedBank;
 
+  validate() {}
+
   @override
   Widget build(BuildContext context) {
     return wrapPage(
         inScroll: true,
+        context: context,
         appBar: customAppBar(context).titleAppBar(title: "Withdrawal"),
         children: Form(
           key: formKey,
@@ -54,18 +63,21 @@ class _walletWithdrawalState extends State<walletWithdrawal> {
               ),
               amountPicker(context,
                   amounts: [5000, 10000, 50000, 100000],
-                  hasMax: true,
-                  onMax: () {}, onChange: (val) {
+                  hasMax: true, onMax: () {
+                _amountController.text =
+                    getWallet()!.availableBalance!.toString();
+              }, onChange: (val) {
                 setState(() {
                   _amountController.text = '$val';
                 });
               }),
               GestureDetector(
-                onTap: () {
-                  Navigator.push(
+                onTap: () async {
+                  selectedBank = await Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (ctx) => const walletSelectBank()));
+                  setState(() {});
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -75,7 +87,7 @@ class _walletWithdrawalState extends State<walletWithdrawal> {
                       child: inputeText(null,
                           label: "Bank",
                           required: true,
-                          hint: "Select Bank",
+                          hint: selectedBank?.name ?? "Select Bank",
                           more: true,
                           padding: const EdgeInsets.symmetric(
                               horizontal: 6, vertical: 6),
@@ -134,7 +146,7 @@ class _walletWithdrawalState extends State<walletWithdrawal> {
                 inputeType: TextInputType.text,
               ),
               customButton(
-                onClick: () {
+                onClick: () async {
                   if (!formKey.currentState!.validate()) {
                     return;
                   }
@@ -147,6 +159,19 @@ class _walletWithdrawalState extends State<walletWithdrawal> {
                         buttonText: "Close");
                     return;
                   }
+
+                  context.loaderOverlay.show();
+
+                  String accountNumber = _walletIdController.text;
+                  var x = await WalletApi(context)
+                      .PostWallet(Endpoints.getBankUser, body: {
+                    "bankId": selectedBank!.id,
+                    "accountNumber": accountNumber
+                  });
+
+                  print(x);
+
+                  context.loaderOverlay.hide();
                 },
                 isActive: true,
                 isLoading: false,

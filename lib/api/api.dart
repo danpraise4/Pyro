@@ -76,11 +76,11 @@ class Api {
       }
 
       if (type == RequestType.patch) {
-        x = await dio.patch(path, queryParameters: data);
+        x = await dio.patch(path, queryParameters: data, data: data);
       }
 
       if (type == RequestType.delete) {
-        x = await dio.delete(path, data: data);
+        x = await dio.delete(path, data: data, queryParameters: data);
       }
 
       return x;
@@ -128,4 +128,10 @@ class Endpoints {
   static const String getWithdraw = "/station/withdraw";
   static const String getBanks = "/payment/bank-list";
   static const String getUser = "/station/wallet";
+  static const String getBankUser = "/payment/validate-account";
+  static const String getQrCode = "/station/generate-qr";
+
+  static const String forgotPassword = "/auth/station/forgot-password";
+  static const String resetPassword = "/auth/station/reset-password";
+  static const String resendOTP = "/auth/station/resend-otp";
 }

@@ -131,12 +131,14 @@ class pinPut extends StatefulWidget {
       {Key? key,
       required this.controller,
       this.enabled = true,
+      this.size = 4,
       this.hide = false})
       : super(key: key);
 
   TextEditingController controller;
   bool? enabled;
   bool? hide;
+  int size;
 
   @override
   State<pinPut> createState() => _pinPutState();
@@ -183,6 +185,7 @@ class _pinPutState extends State<pinPut> {
       },
       pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
       showCursor: true,
+      length: widget.size,
       onCompleted: (pin) => print(pin),
       obscureText: widget.hide!,
     );

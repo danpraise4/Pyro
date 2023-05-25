@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fuleap/helpers/myemums.dart';
+import 'package:fuleap/helpers/storage.dart';
 
 import '../../helpers/constants.dart';
 
 class BottomNavigation {
   BuildContext context;
-  List<Map<String, dynamic>> nav = [
-    {"title": "Home", "icon": "${svgPath}bt_home.svg"},
-    {"title": "Attendant", "icon": "${svgPath}bt_attendant.svg"},
-    {"title": "Wallet", "icon": "${svgPath}bt_wallet.svg"},
-    {"title": "Support", "icon": "${svgPath}bt_support.svg"},
-    {"title": "Settings", "icon": "${svgPath}bt_settings.svg"}
-  ];
+  List<Map<String, dynamic>> nav = getRole() == UserTtype.manager
+      ? [
+          {"title": "Home", "icon": "${svgPath}bt_home.svg"},
+          {"title": "Attendant", "icon": "${svgPath}bt_attendant.svg"},
+          {"title": "Wallet", "icon": "${svgPath}bt_wallet.svg"},
+          {"title": "Support", "icon": "${svgPath}bt_support.svg"},
+          {"title": "Settings", "icon": "${svgPath}bt_settings.svg"}
+        ]
+      : [
+          {"title": "Home", "icon": "${svgPath}bt_home.svg"},
+          {"title": "History", "icon": "${svgPath}bt_reload.svg"},
+          {"title": "Settings", "icon": "${svgPath}bt_settings.svg"}
+        ];
   BottomNavigation(this.context);
   Widget BottomNav(int selected, {required Function? onClick}) {
     return Container(

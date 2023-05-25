@@ -25,7 +25,7 @@ class _attendantItemState extends State<attendantItem> {
 
   @override
   Widget build(BuildContext context) {
-    bool isActive = widget.attendant.accountStatus ?? true;
+    bool isActive = widget.attendant.accountStatus?["status"] != "deactivated";
 
     return GestureDetector(
       onTap: () {

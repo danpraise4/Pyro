@@ -4,7 +4,7 @@ import 'package:fuleap/helpers/constants.dart';
 import 'package:fuleap/helpers/utils.dart';
 import 'package:fuleap/widget/general/text_wrap.dart';
 
-Widget singleProducts({required data}) {
+Widget singleProducts({required data, onChange, onEdit}) {
   return Container(
     margin: const EdgeInsets.symmetric(vertical: 10),
     child: Row(
@@ -20,6 +20,11 @@ Widget singleProducts({required data}) {
               child: boxText(
                 formatAmount(data["price"]),
                 label: perLitter,
+                onClick: () {
+                  if (onEdit != null) {
+                    onEdit(data["price"]);
+                  }
+                },
                 hint: "",
               ),
             ),
@@ -30,11 +35,15 @@ Widget singleProducts({required data}) {
                 height: 20.0,
                 valueFontSize: 30.0,
                 toggleSize: 20.0,
-                value: false,
+                value: data['status'],
                 borderRadius: 30.0,
                 padding: 3.0,
                 showOnOff: false,
-                onToggle: (val) {},
+                onToggle: (val) {
+                  if (onChange != null) {
+                    onChange(val);
+                  }
+                },
               ),
             )
           ],
